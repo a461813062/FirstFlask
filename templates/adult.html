@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 我也不知道是什么东西-->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>审核</title>
+    <link rel="icon" href="../static/img/icon.png"/>
+    <!-- 本地引入CSS一大堆，反正都是有用的 -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet"/>
+    <link href="../static/css/jumbotron.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/barrager.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/pick-a-color/css/pick-a-color-1.2.3.min.css"/>
+    <link type="text/css" rel="stylesheet" href="../static/syntaxhighlighter/styles/shCoreDefault.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <!-- 引入js，我也不知道怎么会有这么多= =， -->
+    <script src="../static/js/ie-emulation-modes-warning.js"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/js/tinycolor-0.9.15.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.barrager.min.js"></script>
+    <script type="text/javascript" src="../static/pick-a-color/js/pick-a-color-1.2.3.min.js"></script>
+    <!-- 建立socket连接、监听发送按钮和接受服务器广播的js-->
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.emit('request_list');
+            $("#info_list").empty();
+            socket.on('get_list',function (data){
+                for(j = 0,len=data.length; j < len; j++){
+                    var i = data[j];
+                    $("#info_list").prepend("<div><p>"+ i +"</p><button onclick=\"pass(this)\">通过</button><button onclick=\"del(this)\">删除</button></div>")
+                }
+            });
+        function get(){
+            window.location.reload();
+        }
+        function del(button){
+            var info = button.parentNode.firstChild.innerText;
+            socket.emit('del_message',info);
+            button.parentNode.remove()
+        }
+        function pass(button){
+            var info = button.parentNode.firstChild.innerText;;
+            socket.emit('pass_message',info);
+            button.parentNode.remove()
+        }
+    </script>
+    <!-- 解决浏览器兼容的js,留着吧 -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+    <!-- 设置背景图片以及自适应大小，这是个坑==，css引入的设置无效，只能写在标签李了 -->
+    <body class="jumbotron" style="background-size: cover;-webkit-background-size: cover;">
+        <!-- 开头那一条小杠杠 -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="background:rgba(0,0,0,0.1);">
+          <div class="container">
+            <div class="navbar-header">
+                <!-- 表明身份。哈哈哈哈 -->
+                <a class="navbar-brand" href="#" style="color: whitesmoke;font-size: 30px;font-weight: bolder">弹幕审核</a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 主体内容 -->
+        <div style="margin-top: 5%;margin-bottom: 3%">
+          <div class="container" style="background: rgba(0,0,0,0.2);border-radius: 20px">
+              <h1 style="color: whitesmoke">使用说明</h1>
+              <p style="color: whitesmoke;font-weight: bolder">按钮上是弹幕内容，点击后即发送并删除该按钮，切勿刷新页面，按钮全部清空</p>
+              <button onclick="get()">获取需要审核的弹幕</button>
+          </div>
+        </div>
+        <div id = "info_list" class="container" style="margin-bottom: 3%;background: rgba(0,0,0,0.3);border-radius: 20px">
+
+        </div>
+    </body>
+    <!-- 到此结束，这个web应用主要点就是通过大神写的query.barrager.js这个插件实现弹幕，以及使用H5支持的WebSocket，看了下现在手浏览器应该都支持H5所以应该用起来没有问题-->
+</html>
