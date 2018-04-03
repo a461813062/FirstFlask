@@ -5,7 +5,6 @@ from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO, emit
 import json
 import gevent
-import geventwebsocket
 
 # 定义好app
 app = Flask(__name__)
