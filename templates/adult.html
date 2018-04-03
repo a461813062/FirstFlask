@@ -32,7 +32,7 @@
             socket.on('get_list',function (data){
                 for(j = 0,len=data.length; j < len; j++){
                     var i = data[j];
-                    $("#info_list").prepend("<div><p>"+ i +"</p><button onclick=\"pass(this)\">通过</button><button onclick=\"del(this)\">删除</button></div>")
+                    $("#info_list").prepend("<div><p style=\"color: whitesmoke\">"+ i +"</p><button onclick=\"pass(this)\">通过</button><button onclick=\"del(this)\">删除</button></div>")
                 }
             });
         function get(){

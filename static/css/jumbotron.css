@@ -3,7 +3,7 @@ body {
   padding-top: 50px;
   padding-bottom: 20px;
   color: #000000;
-  background: url("../img/bg1.jpg") no-repeat fixed;
+  background: url("../img/bg2.jpeg") no-repeat fixed center;
   -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
   -moz-background-size: cover;
   -o-background-size: cover;/* 兼容Opera */
