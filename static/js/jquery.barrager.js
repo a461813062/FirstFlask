@@ -24,7 +24,6 @@
 		div_barrager.css("bottom", bottom + "px");
 		div_barrager_box = $("<div class='barrage_box cl'></div>").appendTo(div_barrager);
 		if(barrage.img){
-
 			div_barrager_box.append("<a class='portrait z' href='javascript:;'></a>");
 			var img = $("<img src='' >").appendTo(id + " .barrage_box .portrait");
 			img.attr('src', barrage.img);
@@ -59,7 +58,7 @@
 		function barrager() {
 
 
-			var window_width = $(window).width() + 500;
+			var window_width = $(window).width() +500 ;
 			if (i < window_width) {
 				i += 1;
 

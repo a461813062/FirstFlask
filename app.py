@@ -22,8 +22,12 @@ del_list = []
 
 # 由于水平有限，需求也不多，所以只有一个html
 @app.route('/')
-def hello_world():
+def index():
     return render_template("index.html")
+
+@app.route('/show')
+def show():
+    return render_template("show.html")
 
 @app.route('/adult')
 def adult():
@@ -53,7 +57,6 @@ def pass_message(pass_data):
         emit('get_message', pass_data, broadcast=True)
     else:
         print("出现异常")
-        adult_list.append(pass_data)
 
 # 将未审核通过的移除
 @sockietio.on('del_message')
@@ -64,7 +67,6 @@ def del_message(del_data):
         print(del_data + "\n这是第：" + str(len(del_list)) + "条删除的内容")
     else:
         print("出现异常")
-        adult_list.append(del_data)
 
 # 和以前flask不一样的是启动方式不能写成app.run()了，要写成SocketIO的启动方式，因为服务器直接用的flask的,没有什么wsgi，所以host改成0.0.0.0，端口还是50000
 if __name__ == '__main__':

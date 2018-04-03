@@ -23,20 +23,20 @@
     <script type="text/javascript" src="../static/js/tinycolor-0.9.15.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.barrager.min.js"></script>
     <script type="text/javascript" src="../static/pick-a-color/js/pick-a-color-1.2.3.min.js"></script>
-    <!-- 建立socket连接、监听发送按钮的js-->
+    <!-- 建立socket连接接受服务器广播的js-->
     <script>
         var socket = io.connect('http://' + document.domain + ':' + location.port);
-        function send(){
-            if($('#name').val() === '' || $('#content').val() === ''){
-                alert("请填写姓名或内容")
-            }
-            else {
-                var info = $('#name').val() +":"+ $('#content').val();
-                $('#name').val('');
-                $('#content').val('');
-                socket.emit('send_message',info);
-            }
-        }
+        socket.on('get_message',function (data){
+                var item={
+                img:'../static/img/candle.png', //图片
+                info:data, //文字
+                close:true, //显示关闭按钮
+                speed:8, //延迟,单位秒,默认8
+                color:'#FFFFFF', //颜色,默认白色
+                old_ie_color:'#000000', //ie低版兼容色,不能与网页背景相同,默认黑色
+                };
+                $('body').barrager(item);
+            })
     </script>
     <!-- 解决浏览器兼容的js,留着吧 -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -65,20 +65,15 @@
           </div>
         </div>
         <div class="container" style="margin-bottom: 3%;background: rgba(0,0,0,0.3);border-radius: 20px">
-            <p style="color: whitesmoke;font-weight: bolder;font-size: 30px">我想对先烈说....</p>
-            <!-- 弹幕内容输入位置，我也不知道为什么要套个form，= =，-- -->
-            <form>
-                <div>
-                    <span style="font-weight: bolder;font-size: 140%;color: whitesmoke">姓名：</span><input required="required"  id="name" style="border:1px solid rgba(255,255,255,0.37);background: rgba(256,256,256,0.4);width: 20%;height: 120%;color: whitesmoke;font-weight: bolder;font-size: 140%">
+            <div class="row">
+                <div style="display:inline-block;margin-left: 5%">
+                    <p style="color: whitesmoke;font-weight: bolder;font-size: 20px">请扫描二维码发送你的所思所想，我们将在审核之后通过弹幕的形式在此页展示</p>
                 </div>
-                    <br>
-                <div>
-                    <span style="font-weight: bolder;font-size: 140%;color: whitesmoke">内容：</span><input required="required" id="content" style="border:1px solid rgba(255,255,255,0.42);background: rgba(256,256,256,0.4);width: 70%;height: 240%;color: whitesmoke;font-weight: bolder;font-size: 140%">
+
+                <div style="display:inline-block;margin-left: 10%">
+                    <img src="../static/img/url.png" width="50%">
                 </div>
-                    <br>
-                <!-- 触发js的按钮,其实，好像写的累赘了，不用把自己传过去的 -->
-                <button type="button" onclick="send(this)" style="border:1px solid rgba(255,255,255,0.37);background: rgba(256,256,256,0.4);margin-bottom: 3%"><span style="font-weight: bolder;font-size: 120%;color: whitesmoke">提交</span></button>
-            </form>
+            </div>
         </div>
 
         <!-- 先烈事迹介绍 -->
